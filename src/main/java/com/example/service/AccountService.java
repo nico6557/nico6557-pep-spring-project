@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.repository.AccountRepository;
 
-import antlr.collections.List;
+import java.util.List;
 import java.util.Optional;
 import com.example.entity.Account;;
 
@@ -32,6 +32,18 @@ public class AccountService {
         return x;
     }
 
+    public Account authenticate(String username, String password) {
+        
+        Account account = getAccountByUsername((username));
+
+        if (account != null && account.getPassword().equals(password)) {
+            return account;
+        } else {
+            return null;
+        }
+
+    }
+
     public Account saveAccount(Account account) {
 
         Account x = accountRepository.save(account);
@@ -52,12 +64,6 @@ public class AccountService {
 
     }
 
-    public void deleteAccountById (Integer id) {
-        
-        accountRepository.deleteById(id);
-
-    }
-
     public Account getAccountByUsername (String username) {
         
         Account x = accountRepository.findByUsername(username);
@@ -65,19 +71,15 @@ public class AccountService {
         return x;
     }
 
-    public Account authenticate(String username, String password) {
+    public void deleteAccountById (Integer id) {
         
-        Account account = getAccountByUsername((username));
-
-        if (account != null && account.getPassword().equals(password)) {
-            return account;
-        } else {
-            return null;
-        }
-
-
+        accountRepository.deleteById(id);
 
     }
+
+ 
+
+
 
 
 }

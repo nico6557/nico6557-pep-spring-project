@@ -1,19 +1,24 @@
 package com.example.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.stereotype.Service;
 import com.example.entity.Account;
 import com.example.service.AccountService;
 
+import com.example.service.*;
 
 @RestController
+
+
 public class AccountController {
 
-
+    @Autowired
     private AccountService accountService;
 
 
@@ -21,10 +26,9 @@ public class AccountController {
     public ResponseEntity<Account> registerAccount(@RequestBody Account account) {
 
         Account x = accountService.getAccountByUsername(account.getUsername());
-
         if (x != null) {
 
-            retuen new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
 
         }
 
@@ -33,8 +37,8 @@ public class AccountController {
         return new ResponseEntity<>(savedAccount, HttpStatus.OK);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Account> loginAccount(@RequestBody Account account) {
+    @PostMapping("/authenticate")
+    public ResponseEntity<Account> authenticate(@RequestBody Account account) {
         
         Account x = accountService.authenticate(account.getUsername(), account.getPassword());
 
@@ -42,11 +46,10 @@ public class AccountController {
 
             return new ResponseEntity<> (x, HttpStatus.OK);
 
-        } else {
+        } 
 
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        }
     }
 
     
