@@ -53,7 +53,7 @@ public class MessageController {
             Message message = messageService.getMessageById(messageId);
 
             if (message == null) {
-                return new ResponseEntity<> (messageId, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             Message updatedMessage = messageService.updateMessage(messageId, messageUpdate);
 
@@ -106,12 +106,15 @@ public class MessageController {
     @DeleteMapping("/messages/{messageId}")
     public ResponseEntity<Integer> deleteMessageById(@PathVariable Integer messageId) {
 
-        int rowsDeleted = messageService.deleteMessageById(messageId);
-        
-        if (messageId == null) {
+        //if (messageId == null) {
+           // return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        //}
+        Message message = messageService.getMessageById(messageId);
+
+        if (message == null) {
             return ResponseEntity.ok().build(); 
         }
-
+        int rowsDeleted = messageService.deleteMessageById(messageId);
         return ResponseEntity.ok(rowsDeleted);
     }
 

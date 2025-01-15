@@ -37,8 +37,8 @@ public class AccountController {
         return new ResponseEntity<>(savedAccount, HttpStatus.OK);
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<Account> authenticate(@RequestBody Account account) {
+    @PostMapping("/login")
+    public ResponseEntity<Account> login(@RequestBody Account account) {
         
         Account x = accountService.authenticate(account.getUsername(), account.getPassword());
 
